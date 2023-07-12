@@ -5,6 +5,22 @@ const fs = require("fs");
 const port = process.env.PORT || 8001;
 const dbconnection = require("./config/database");
 
+// Handle uncaught Exceptions occur in our app
+process.on("uncaughtException", (err) => {
+  console.log(err.name, err.message);
+  console.log("Uncaught Exception occured! Shutting down...");
+  const content = `uncaught Exception occured! Shutting down... ${err.name} error message: ${err.message}`;
+  fs.writeFileSync(
+    "./Log/uncaughterror-log.txt",
+    content,
+    { flag: "a" },
+    (err) => {
+      console.log(err.message);
+    }
+  );
+  process.exit(1);
+});
+
 dbconnection();
 
 const server = app.listen(port, () => {
@@ -12,7 +28,7 @@ const server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-// Handle UnhandleRejection
+// Handle UnhandleRejection Occurs in our app
 
 process.on("unhandledRejection", (err) => {
   console.log(err.name, err.message);
