@@ -70,7 +70,7 @@ exports.verifyEmail = asyncErrorHandler(async (req, res, next) => {
 // sign in user
 exports.signin = asyncErrorHandler(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(req.body);
+
   // or use any third party package like JOI
   if (!email || !password) {
     return next(new CustomError("Please provide email and password", 400));

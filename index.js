@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const app = require("./app");
+
 const fs = require("fs");
 
 const port = process.env.PORT || 8001;
@@ -20,6 +20,8 @@ process.on("uncaughtException", (err) => {
   );
   process.exit(1);
 });
+
+const app = require("./app");
 
 dbconnection();
 
