@@ -1,7 +1,15 @@
 const express = require("express");
 const app = express();
 var cors = require("cors");
+const { createClient } = require("redis");
 const mongoose = require("mongoose");
+const client = createClient();
+
+(async () => await client.connect())();
+client.on("error", (err) => console.log("Redis Client Error", err));
+client.on("connect", () => console.log("Redis Client connected"));
+global.redisClient = client;
+
 require("./helper/cache");
 const CustomError = require("./errors/custom-error");
 const userroute = require("./routes/User");

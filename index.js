@@ -4,8 +4,6 @@ const fs = require("fs");
 
 const dbconnection = require("./config/database");
 
-const { createClient } = require("redis");
-
 // Handle uncaught Exceptions occur in our app
 process.on("uncaughtException", (err) => {
   console.log(err.name, err.message);
@@ -26,12 +24,7 @@ const app = require("./app");
 const port = process.env.PORT;
 
 dbconnection();
-const client = createClient();
 
-(async () => await client.connect())();
-client.on("error", (err) => console.log("Redis Client Error", err));
-client.on("connect", () => console.log("Redis Client connected"));
-global.redisClient = client;
 const server = app.listen(port, () => {
   // console.log("ccc", process.env);
   console.clear();
