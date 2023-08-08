@@ -13,7 +13,7 @@ exports.list = asyncErrorHandler(async (req, res, next) => {
   //     data: JSON.parse(cacheddat),
   //   });
   // }
-  const data = await Blog.find({ user: req.user._id });
+  const data = await Blog.find({ user: req.user._id }).cache();
   return res.status(200).json({
     success: true,
     data,
@@ -29,7 +29,7 @@ exports.save = asyncErrorHandler(async (req, res, next) => {
   const blog = new Blog({ title, content, user: req.user._id });
   await blog.save();
 
-  await redisClient.set(`blog:${req.user._id}`, JSON.stringify(blog));
+  // await redisClient.set(`blog:${req.user._id}`, JSON.stringify(blog));
   // await redisClient.set("inblog", "xyz");
   // const redisKey = `blogs:${req.user._id}`;
   // const existingBlogs = await redisClient.get(redisKey);
